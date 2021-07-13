@@ -1,0 +1,37 @@
+DROP DATABASE IF EXISTS bd_cibercredito;
+CREATE DATABASE bd_cibercredito;
+
+USE bd_cibercredito;
+
+CREATE TABLE CLIENTES (
+  COD_CLI     INT    PRIMARY KEY AUTO_INCREMENT,
+  NOMBRE      VARCHAR(60) NOT NULL,
+  APELLIDO    VARCHAR(60) NOT NULL
+);
+
+CREATE TABLE TIPOS_CREDITO (
+  COD_TIP_CRE  INT    PRIMARY KEY AUTO_INCREMENT,
+  DESCRIPCION  VARCHAR(65) NOT NULL,
+  TERMINOS     VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE SOLICITUDES (
+  CODIGO       CHAR(6)        PRIMARY KEY NOT NULL,
+  FECHA        DATE           NOT NULL,
+  MONTO        DECIMAL(8,2)   NOT NULL,
+  OBSERVACION  VARCHAR(60)    NOT NULL,
+  COD_CLI      INT            NOT NULL,
+  COD_TIP_CRE  INT            NOT NULL,
+  
+  FOREIGN KEY (COD_CLI) REFERENCES CLIENTES(COD_CLI),
+  FOREIGN KEY (COD_TIP_CRE) REFERENCES TIPOS_CREDITO (COD_TIP_CRE)
+);
+
+INSERT INTO CLIENTES VALUES (null,'Luis', 'Romero');
+INSERT INTO CLIENTES VALUES (null,'Jose', 'Robles');
+INSERT INTO CLIENTES VALUES (null,'Diego', 'Mejia');
+INSERT INTO CLIENTES VALUES (null,'Marco', 'Lopez');
+
+INSERT INTO TIPOS_CREDITO VALUES (null,'Hipotecario', 'El banco adquiere la propiedad');
+INSERT INTO TIPOS_CREDITO VALUES (null,'Comerciales', 'Se requiere informe de ingresos y gastos');
+INSERT INTO TIPOS_CREDITO VALUES (null,'Consumo', 'Se considera las comisiones y gastos en el interes');

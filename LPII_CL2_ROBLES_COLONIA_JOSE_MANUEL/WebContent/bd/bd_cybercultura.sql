@@ -1,0 +1,77 @@
+DROP DATABASE IF EXISTS bd_cybercultura;
+CREATE DATABASE bd_cybercultura;
+
+USE bd_cybercultura;
+
+CREATE TABLE AUTORES (
+  COD_AUT      INT    PRIMARY KEY AUTO_INCREMENT,
+  NOMBRE      VARCHAR(60) NOT NULL,
+  DESCRIPCION VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE GENEROS (
+  COD_GEN      INT    PRIMARY KEY AUTO_INCREMENT,
+  NOMBRE      VARCHAR(30) NOT NULL,
+  DESCRIPCION VARCHAR(65) NOT NULL
+);
+
+CREATE TABLE LIBROS (
+  CODIGO      CHAR(6)     PRIMARY KEY NOT NULL,
+  TITULO      VARCHAR(40) NOT NULL,
+  PAGINAS     INT         NOT NULL,
+  FECH_PUBL   DATE        NOT NULL,
+  COD_AUT     INT         NOT NULL,
+  COD_GEN     INT         NOT NULL,
+  
+  FOREIGN KEY (COD_AUT) REFERENCES AUTORES(COD_AUT),
+  FOREIGN KEY (COD_GEN) REFERENCES GENEROS (COD_GEN)
+);
+
+INSERT INTO AUTORES VALUES (null,'Yasir Nilo', 'Un escritor con clase');
+INSERT INTO AUTORES VALUES (null,'Frida Chloe', 'Una escritora perfecta');
+INSERT INTO AUTORES VALUES (null,'Melesio San', 'Nunca es olvidado');
+INSERT INTO AUTORES VALUES (null,'Mikami Yusuf', 'Que seria sin el');
+
+INSERT INTO GENEROS VALUES (null,'Terror', 'Para los que quieren sentir el miedo');
+INSERT INTO GENEROS VALUES (null,'Ciencia Ficcion', 'Los deseos mas grandes del futuro');
+INSERT INTO GENEROS VALUES (null,'Drama', 'Atrapate en la vida de los personajes');
+INSERT INTO GENEROS VALUES (null,'Fantasia', 'Las mejores historias');
+
+
+INSERT INTO LIBROS VALUES ('LI0001','Miedo Profundo', 451, '1998-10-14', 1, 1);
+INSERT INTO LIBROS VALUES ('LI0002','La Noche Cae', 209, '2010-01-19', 2, 1);
+INSERT INTO LIBROS VALUES ('LI0003','Sonidos del mas alla', 318, '1942-08-25', 3, 1);
+INSERT INTO LIBROS VALUES ('LI0004','No cierres los ojos', 655, '2020-12-12', 4, 1);
+
+INSERT INTO LIBROS VALUES ('LI0005','A las estrellas', 501, '2002-05-14', 1, 2);
+INSERT INTO LIBROS VALUES ('LI0006','Cyberpunk 2077', 888, '1999-06-19', 2, 2);
+INSERT INTO LIBROS VALUES ('LI0007','Android', 920, '1945-09-25', 3, 2);
+INSERT INTO LIBROS VALUES ('LI0008','Un dia sin internet', 1021, '2019-02-01', 4, 2);
+
+INSERT INTO LIBROS VALUES ('LI0009','Lagrimas', 457, '2004-10-27', 1, 3);
+INSERT INTO LIBROS VALUES ('LI0010','Rosas y Margaritas', 199, '2005-09-09', 2, 3);
+INSERT INTO LIBROS VALUES ('LI0011','La soledad', 788, '1948-12-25', 3, 3);
+INSERT INTO LIBROS VALUES ('LI0012','Logros y derrotas', 366, '2007-03-03', 4, 3);
+
+INSERT INTO LIBROS VALUES ('LI0013','Dragones', 912, '2006-11-11', 1, 4);
+INSERT INTO LIBROS VALUES ('LI0014','El castillo blanco', 1088, '2020-01-29', 2, 4);
+INSERT INTO LIBROS VALUES ('LI0015','Mundo perdido', 1102, '1955-11-20', 3, 4);
+INSERT INTO LIBROS VALUES ('LI0016','Al otro lado del mundo', 999, '2000-07-05', 4, 4);
+
+DELIMITER $$
+CREATE PROCEDURE usp_libro_por_autor (cod_autor INT)
+BEGIN
+  SELECT L.CODIGO, A.NOMBRE,
+         L.FECH_PUBL, L.TITULO, G.NOMBRE
+  FROM LIBROS L
+  INNER JOIN AUTORES A
+    ON L.COD_AUT = A.COD_AUT
+  INNER JOIN GENEROS G
+    ON L.COD_GEN = G.COD_GEN
+  WHERE L.COD_AUT = cod_autor;
+END$$;
+DELIMITER ;
+
+call usp_libro_por_autor(2);
+
+SELECT * FROM LIBROS;

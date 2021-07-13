@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<taglib>
+  <tlibversion>1.0</tlibversion>
+  <jspversion>1.0</jspversion>
+  <shortname>Alias de la libreria</shortname>
+
+  <tag>	
+    <name>comboCliente</name>	
+    <tagclass>etiquetas.ComboClienteTag</tagclass>	
+    <bodycontent>empty</bodycontent>	
+    <info>Muestra lista de clientes</info>
+  </tag>
+  
+  <tag>	
+    <name>comboTipCredi</name>	
+    <tagclass>etiquetas.ComboTipoCreditoTag</tagclass>	
+    <bodycontent>empty</bodycontent>	
+    <info>Muestra lista de tipos de creditos</info>	
+  </tag>
+  
+</taglib>
